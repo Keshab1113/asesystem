@@ -98,7 +98,7 @@ const mockAssessmentHistory = [
 ]
 
 export default function ProfilePage() {
-  const { user, updateUser } = useAuth()
+  const { user } = useAuth()
   const { toast } = useToast()
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -119,10 +119,10 @@ export default function ProfilePage() {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
-      await updateUser({
-        ...user!,
-        ...formData,
-      })
+      // await updateUser({
+      //   ...user!,
+      //   ...formData,
+      // })
 
       setIsEditing(false)
       toast({
