@@ -11,15 +11,15 @@ export default function HomePage() {
   const { isAuthenticated, isLoading } = useAuth()
   const router = useRouter()
 
-  useEffect(() => {
-    if (!isLoading) {
-      if (isAuthenticated) {
-        router.push("/dashboard")
-      } else {
-        router.push("/register")
-      }
-    }
-  }, [isAuthenticated, isLoading, router])
+  // useEffect(() => {
+  //   if (!isLoading) {
+  //     if (isAuthenticated) {
+  //       router.push("/dashboard")
+  //     } else {
+  //       router.push("/register")
+  //     }
+  //   }
+  // }, [isAuthenticated, isLoading, router])
 
   if (isLoading) {
     return (
