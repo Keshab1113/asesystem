@@ -5,12 +5,12 @@ import { GeistMono } from "geist/font/mono"
 // import { Analytics } from "@vercel/analytics/next"
 import { Analytics } from "@vercel/analytics/react"
 import { ThemeProvider } from "@/lib/theme-provider"
-import { AuthProvider } from "@/lib/auth-context"
-import { LanguageProvider } from "@/lib/language-context"
+import { AuthProvider } from "@/lib/auth-context";
+import { LanguageProvider } from "@/lib/language-context";
 // import { Toaster } from "@/components/ui/sonner"
-import { Suspense } from "react"
-import "./globals.css"
-import { ToastProvider } from "@/hooks/ToastContext"
+import { Suspense } from "react";
+import "./globals.css";
+import { ToastProvider } from "@/hooks/ToastContext";
 
 export const metadata: Metadata = {
   title: "Quiz Assessment System",

@@ -17,8 +17,8 @@ import { useTheme } from "next-themes"
 import { useLanguage } from "@/lib/language-context"
 
 export default function HomePage() {
-  const { isAuthenticated, isLoading } = useAuth()
-  const router = useRouter()
+  const { isAuthenticated, isLoading } = useAuth();
+  const router = useRouter();
   const { theme, setTheme } = useTheme();
   const { language, setLanguage, t } = useLanguage();
 

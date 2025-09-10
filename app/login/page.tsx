@@ -56,7 +56,11 @@ export default function LoginPage() {
     try {
       const success = await login(email, password);
       if (success) {
+        if(email==="keshabdas2003@kockw.com"){
+          router.push("/adminDashboard");
+        }else{
         router.push("/dashboard");
+        }
       } else {
         setError("Invalid email or password");
       }
