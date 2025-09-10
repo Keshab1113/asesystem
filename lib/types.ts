@@ -8,6 +8,8 @@ export interface User {
   language: "en" | "ar"
   createdAt: Date
   isVerified: boolean
+  controllingTeam:string
+  group:string
 }
 
 export interface Assessment {

@@ -23,6 +23,8 @@ export const translations = {
     "nav.profile": "My Profile",
     "nav.logout": "Log out",
     "nav.quizSystem": "Drilling Group (N&WK) Assessment System",
+    "nav.AsesSystem": "Assessment System",
+    "nav.drillGroup": "Drilling Group (N&WK)",
 
     // Authentication
     "auth.welcomeBack": "Welcome Back",
@@ -82,7 +84,7 @@ export const translations = {
     "dashboard.fromLastMonth": "+5% from last month",
     "dashboard.myAssessments": "My Assessments",
     "dashboard.viewAssignedQuizzes":
-      "View all assigned quizzes and past results",
+      "View assigned quizzes and past results",
     "dashboard.viewAssessments": "View Assessments",
     "dashboard.upcomingAssessments": "Upcoming Assessments",
     "dashboard.checkScheduled": "Check your scheduled assessments",
@@ -144,6 +146,8 @@ export const translations = {
     "profile.fullName": "Full Name",
     "profile.position": "Position / Designation",
     "profile.employeeId": "Employee ID",
+    "profile.controllingTeam": "Controlling Team",
+    "profile.group": "Group",
     "profile.emailCannotChange":
       "Email address cannot be changed. Contact administrator if needed.",
     "profile.accountInfo": "Account Information",
@@ -198,8 +202,47 @@ export const translations = {
     "upcoming.days": "days",
     "upcoming.weeks": "weeks",
     "upcoming.months": "months",
+
+    "mainPage.heading": "Grade 15 Assessment on KOC HSE MS",
+    "mainPage.subHeading":
+      "Professional assessment platform for employee skill evaluation and development",
+    "mainPage.getStarted": "Get Started",
+    "mainPage.SmartAssessments": "Smart Assessments",
+    "mainPage.SmartAssessmentsDetails":
+      "Comprehensive quizzes designed to evaluate technical and professional skills",
+
+    "mainPage.TeamManagement": "Team Management",
+    "mainPage.TeamManagementDetails":
+      "Organize and track assessment progress across your entire organization",
+
+    "mainPage.Certification": "Certification",
+    "mainPage.CertificationDetails":
+      "Earn certificates and track professional development milestones",
+
+    "mainPage.Analytics": "Analytics",
+    "mainPage.AnalyticsDetails":
+      "Detailed insights and performance analytics for continuous improvement",
   },
   ar: {
+    "mainPage.heading": "تقييم الصف الخامس عشر على نظام إدارة الصحة والسلامة والبيئة في شركة KOC",
+    "mainPage.subHeading": "منصة تقييم احترافية لتقييم وتطوير مهارات الموظفين",
+    "mainPage.getStarted": "ابدأ الآن",
+
+    "mainPage.SmartAssessments": "التقييمات الذكية",
+    "mainPage.SmartAssessmentsDetails":
+      "اختبارات شاملة مصممة لتقييم المهارات التقنية والمهنية",
+
+    "mainPage.TeamManagement": "إدارة الفريق",
+    "mainPage.TeamManagementDetails":
+      "تنظيم وتتبع تقدم التقييم عبر مؤسستك بأكملها",
+
+    "mainPage.Certification": "الشهادات",
+    "mainPage.CertificationDetails":
+      "احصل على شهادات وتابع إنجازات التطوير المهني",
+
+    "mainPage.Analytics": "التحليلات",
+    "mainPage.AnalyticsDetails": "رؤى تفصيلية وتحليلات أداء من أجل تحسين مستمر",
+
     // Common
     "common.loading": "جاري التحميل...",
     "common.save": "حفظ",
@@ -223,6 +266,9 @@ export const translations = {
     "nav.profile": "ملفي الشخصي",
     "nav.logout": "تسجيل الخروج",
     "nav.quizSystem": "نظام تقييم مجموعة الحفر (N&WK)",
+    "nav.AsesSystem": "نظام التقييم",
+    "nav.drillGroup": "مجموعة الحفر (N&WK)",
+
 
     // Authentication
     "auth.welcomeBack": "مرحباً بعودتك",
@@ -341,6 +387,8 @@ export const translations = {
     "profile.fullName": "الاسم الكامل",
     "profile.position": "المنصب / التسمية الوظيفية",
     "profile.employeeId": "رقم الموظف",
+    "profile.controllingTeam": "فريق التحكم",
+    "profile.group": "مجموعة",
     "profile.emailCannotChange":
       "لا يمكن تغيير عنوان البريد الإلكتروني. اتصل بالمسؤول إذا لزم الأمر.",
     "profile.accountInfo": "معلومات الحساب",

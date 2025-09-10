@@ -97,90 +97,90 @@ export default function DashboardPage() {
               {Math.round(
                 (stats.completedAssessments / stats.totalAssessments) * 100
               )}
-              % completion rate
+              % {t("dashboard.completionRate")}
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Upcoming</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("dashboard.upcoming")}</CardTitle>
             <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
               {stats.upcomingAssessments}
             </div>
-            <p className="text-xs text-muted-foreground">Due this month</p>
+            <p className="text-xs text-muted-foreground">{t("dashboard.dueThisMonth")}</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Average Score</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("dashboard.averageScore")}</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.averageScore}%</div>
-            <p className="text-xs text-muted-foreground">+5% from last month</p>
+            <p className="text-xs text-muted-foreground">{t("dashboard.fromLastMonth")}</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Quick Actions */}
       <div className="grid gap-4 md:grid-cols-3">
-        <Card className="hover:shadow-md transition-shadow cursor-pointer">
+        <Card className="hover:shadow-md transition-shadow">
           <Link href="/dashboard/assessments">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="h-5 w-5" />
-                My Assessments
+                {t("dashboard.myAssessments")}
               </CardTitle>
               <CardDescription>
-                View assigned quizzes and past results
+                {t("dashboard.viewAssignedQuizzes")}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button variant="outline" className="w-full bg-transparent mt-2">
-                View Assessments
+              <Button variant="outline" className="w-full bg-transparent mt-2 cursor-pointer">
+                {t("dashboard.viewAssessments")}
               </Button>
             </CardContent>
           </Link>
         </Card>
 
-        <Card className="hover:shadow-md transition-shadow cursor-pointer">
+        <Card className="hover:shadow-md transition-shadow">
           <Link href="/dashboard/upcoming">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Calendar className="h-5 w-5" />
-                Upcoming Assessments
+                {t("dashboard.upcomingAssessments")}
               </CardTitle>
               <CardDescription>
-                Check your scheduled assessments
+                {t("dashboard.checkScheduled")}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button variant="outline" className="w-full bg-transparent mt-2">
-                View Schedule
+              <Button variant="outline" className="w-full bg-transparent mt-2 cursor-pointer">
+                {t("dashboard.viewSchedule")}
               </Button>
             </CardContent>
           </Link>
         </Card>
 
-        <Card className="hover:shadow-md transition-shadow cursor-pointer">
+        <Card className="hover:shadow-md transition-shadow">
           <Link href="/dashboard/profile">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <User className="h-5 w-5" />
-                My Profile
+                {t("dashboard.myProfile")}
               </CardTitle>
               <CardDescription>
-                Update your details and view history
+                {t("dashboard.updateDetails")}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button variant="outline" className="w-full bg-transparent mt-2">
-                Manage Profile
+              <Button variant="outline" className="w-full bg-transparent mt-2 cursor-pointer">
+                {t("dashboard.manageProfile")}
               </Button>
             </CardContent>
           </Link>
@@ -190,8 +190,8 @@ export default function DashboardPage() {
       {/* Recent Activity */}
       <Card>
         <CardHeader>
-          <CardTitle>Recent Activity</CardTitle>
-          <CardDescription>Your latest assessment activities</CardDescription>
+          <CardTitle>{t("dashboard.recentActivity")}</CardTitle>
+          <CardDescription>{t("dashboard.latestActivities")}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -222,7 +222,7 @@ export default function DashboardPage() {
                       {assessment.score}%
                     </Badge>
                   ) : (
-                    <Badge variant="outline">Upcoming</Badge>
+                    <Badge variant="outline">{t("dashboard.upcoming")}</Badge>
                   )}
                 </div>
               </div>

@@ -316,7 +316,7 @@ export default function AssessmentsPage() {
 
       {/* Assessment Tabs */}
       <Tabs defaultValue="current" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full md:grid-cols-2 grid-cols-1 mb-4 h-fit">
           <TabsTrigger value="current" className="flex items-center gap-2">
             <Clock className="w-4 h-4" />
             Current Assessments ({currentAssessments.length})
