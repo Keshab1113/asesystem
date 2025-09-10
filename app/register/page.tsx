@@ -98,6 +98,8 @@ export default function RegisterPage() {
         employeeId: formData.employeeId,
         email: formData.email,
         language: language,
+        controllingTeam: "default-team",
+        group: "default-group",
       });
 
       if (success) {
@@ -270,7 +272,11 @@ export default function RegisterPage() {
               )}
             </div>
 
-            <Button type="submit" className="w-full cursor-pointer" disabled={isLoading}>
+            <Button
+              type="submit"
+              className="w-full cursor-pointer"
+              disabled={isLoading}
+            >
               {isLoading ? t("register.creating") : t("register.createAccount")}
             </Button>
           </form>
