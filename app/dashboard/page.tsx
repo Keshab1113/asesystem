@@ -20,10 +20,15 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useLanguage } from "@/lib/language-context";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/lib/store";
 
 export default function DashboardPage() {
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const { t } = useLanguage();
+  const { user } = useSelector(
+    (state: RootState) => state.auth
+  );
 
   // Mock data for dashboard stats
   const stats = {
@@ -62,7 +67,7 @@ export default function DashboardPage() {
       {/* Welcome Section */}
       <div className="flex flex-col gap-0">
         <h1 className="text-3xl font-bold tracking-tight">
-          {t("dashboard.welcomeBack")}, {user?.fullName?.split(" ")[0]}!
+          {t("dashboard.welcomeBack")}, {user?.name}!
         </h1>
         <p className="text-muted-foreground">
           {t("dashboard.overviewDescription")}
@@ -80,13 +85,17 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.totalAssessments}</div>
-            <p className="text-xs text-muted-foreground">{t("dashboard.assignedToYou")}</p>
+            <p className="text-xs text-muted-foreground">
+              {t("dashboard.assignedToYou")}
+            </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("dashboard.completed")}</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {t("dashboard.completed")}
+            </CardTitle>
             <CheckCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -104,25 +113,33 @@ export default function DashboardPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("dashboard.upcoming")}</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {t("dashboard.upcoming")}
+            </CardTitle>
             <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
               {stats.upcomingAssessments}
             </div>
-            <p className="text-xs text-muted-foreground">{t("dashboard.dueThisMonth")}</p>
+            <p className="text-xs text-muted-foreground">
+              {t("dashboard.dueThisMonth")}
+            </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("dashboard.averageScore")}</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              {t("dashboard.averageScore")}
+            </CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.averageScore}%</div>
-            <p className="text-xs text-muted-foreground">{t("dashboard.fromLastMonth")}</p>
+            <p className="text-xs text-muted-foreground">
+              {t("dashboard.fromLastMonth")}
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -141,7 +158,10 @@ export default function DashboardPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button variant="outline" className="w-full bg-transparent mt-2 cursor-pointer">
+              <Button
+                variant="outline"
+                className="w-full bg-transparent mt-2 cursor-pointer"
+              >
                 {t("dashboard.viewAssessments")}
               </Button>
             </CardContent>
@@ -155,12 +175,13 @@ export default function DashboardPage() {
                 <Calendar className="h-5 w-5" />
                 {t("dashboard.upcomingAssessments")}
               </CardTitle>
-              <CardDescription>
-                {t("dashboard.checkScheduled")}
-              </CardDescription>
+              <CardDescription>{t("dashboard.checkScheduled")}</CardDescription>
             </CardHeader>
             <CardContent>
-              <Button variant="outline" className="w-full bg-transparent mt-2 cursor-pointer">
+              <Button
+                variant="outline"
+                className="w-full bg-transparent mt-2 cursor-pointer"
+              >
                 {t("dashboard.viewSchedule")}
               </Button>
             </CardContent>
@@ -174,12 +195,13 @@ export default function DashboardPage() {
                 <User className="h-5 w-5" />
                 {t("dashboard.myProfile")}
               </CardTitle>
-              <CardDescription>
-                {t("dashboard.updateDetails")}
-              </CardDescription>
+              <CardDescription>{t("dashboard.updateDetails")}</CardDescription>
             </CardHeader>
             <CardContent>
-              <Button variant="outline" className="w-full bg-transparent mt-2 cursor-pointer">
+              <Button
+                variant="outline"
+                className="w-full bg-transparent mt-2 cursor-pointer"
+              >
                 {t("dashboard.manageProfile")}
               </Button>
             </CardContent>

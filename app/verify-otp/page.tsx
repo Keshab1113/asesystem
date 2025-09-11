@@ -1,76 +1,110 @@
-"use client";
+"use client"
 
-import type React from "react";
-
-import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useAuth } from "@/lib/auth-context";
+import type React from "react"
+import { useState, useEffect } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
+import { useAuth } from "@/lib/auth-context"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Mail, Shield } from "lucide-react";
-import { useToast } from "@/hooks/ToastContext";
-import { useLanguage } from "@/lib/language-context";
+} from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Mail, Shield } from "lucide-react"
+import { useToast } from "@/hooks/ToastContext"
+import { useLanguage } from "@/lib/language-context"
 
 export default function VerifyOTPPage() {
-  const [otp, setOtp] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const { verifyOTP } = useAuth();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const { toast } = useToast();
-  const { t } = useLanguage();
+  const [otp, setOtp] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
+  const [timer, setTimer] = useState(30) // ⏳ 30 seconds countdown
+  const { verifyOTP } = useAuth()
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const { toast } = useToast()
+  const { t } = useLanguage()
 
-  const email = searchParams.get("email") || "";
+  const email = searchParams.get("email") || ""
 
   useEffect(() => {
     if (!email) {
-      router.push("/register");
+      router.push("/register")
     }
-  }, [email, router]);
+  }, [email, router])
+
+  // ⏳ Timer countdown
+  useEffect(() => {
+    if (timer <= 0) return
+    const interval = setInterval(() => {
+      setTimer((prev) => prev - 1)
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [timer])
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
+    e.preventDefault()
+    setError("")
 
     if (!otp.trim()) {
-      setError("Please enter the OTP code");
-      return;
+      setError("Please enter the OTP code")
+      return
     }
 
-    setIsLoading(true);
+    setIsLoading(true)
 
     try {
-      const success = await verifyOTP(email, otp);
+      const success = await verifyOTP(email, otp)
 
       if (success) {
         toast({
           title: "Verification Successful",
-          description: "Your account has been verified successfully.",
-        });
-        if (email === "keshabdas2003@kockw.com") {
-          router.push("/adminDashboard");
-        } else {
-          router.push("/dashboard");
-        }
+          description: "Your account has been verified successfully. Please log in.",
+        })
+        router.push("/login");
       } else {
-        setError("Invalid OTP code. Please try again.");
+        setError("Invalid OTP code. Please try again.")
       }
     } catch (error) {
-      setError("An unexpected error occurred. Please try again.");
+      setError("An unexpected error occurred. Please try again.")
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
+
+  const handleResendOTP = async () => {
+    setTimer(30);
+    try {
+      const res = await fetch("/api/resend-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      })
+      if (res.ok) {
+        toast({
+          title: "OTP Sent",
+          description: "A new verification code has been sent to your email.",
+        })
+      } else {
+        toast({
+          title: "Failed",
+          description: "Could not resend OTP. Please try again.",
+          variant: "destructive",
+        })
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong while resending OTP.",
+        variant: "destructive",
+      })
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted flex items-center justify-center p-4">
@@ -118,13 +152,26 @@ export default function VerifyOTPPage() {
             </Button>
           </form>
 
-          <div className="mt-4 text-center flex">
-            <p className="text-sm text-muted-foreground mb-0">
-              {t("otp.didntReceive")}
-            </p>
-            <Button variant="link" className="p-0 h-auto mx-1 cursor-pointer">
-              {t("otp.resendCode")}
-            </Button>
+          {/* Resend section */}
+          <div className="mt-4 text-center flex justify-center">
+            {timer > 0 ? (
+              <p className="text-sm text-muted-foreground">
+                You can resend OTP in <span className="font-semibold">{timer}s</span>
+              </p>
+            ) : (
+              <>
+                <p className="text-sm text-muted-foreground mb-0">
+                  {t("otp.didntReceive")}
+                </p>
+                <Button
+                  variant="link"
+                  className="p-0 h-auto mx-1 cursor-pointer"
+                  onClick={handleResendOTP}
+                >
+                  {t("otp.resendCode")}
+                </Button>
+              </>
+            )}
           </div>
 
           <div className="mt-4 text-center">
@@ -136,15 +183,8 @@ export default function VerifyOTPPage() {
               {t("otp.backToRegistration")}
             </Button>
           </div>
-
-          <div className="mt-6 p-3 bg-blue-50 dark:bg-blue-950 rounded-lg">
-            <p className="text-xs text-blue-600 dark:text-blue-400">
-              <strong>Demo Note:</strong> Use code "123456" for testing
-              purposes.
-            </p>
-          </div>
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }

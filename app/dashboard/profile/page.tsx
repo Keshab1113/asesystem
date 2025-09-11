@@ -293,7 +293,7 @@ export default function ProfilePage() {
                 {/* Avatar */}
                 <Avatar className="w-24 h-24">
                   <AvatarImage
-                    src={croppedImage || "/placeholder.svg"}
+                    src={croppedImage || "/admin-avatar.png"}
                     alt={user?.fullName}
                   />
                   <AvatarFallback className="text-lg">

@@ -26,6 +26,9 @@ import { LogIn, Mail, Lock, Sun, Moon } from "lucide-react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useLanguage } from "@/lib/language-context";
+import { useDispatch } from "react-redux"
+import { loginFailure, loginStart, loginSuccess } from "@/lib/slices/authSlice";
+import { addUser } from "@/lib/slices/userSlice";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -36,6 +39,8 @@ export default function LoginPage() {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const { language, setLanguage, t } = useLanguage();
+  const dispatch = useDispatch()
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,25 +51,38 @@ export default function LoginPage() {
       return;
     }
 
-    if (!email.endsWith("@kockw.com")) {
-      setError("Email must be from @kockw.com domain");
-      return;
-    }
+    // if (!email.endsWith("@kockw.com")) {
+    //   setError("Email must be from @kockw.com domain");
+    //   return;
+    // }
 
     setIsLoading(true);
 
     try {
-      const success = await login(email, password);
-      if (success) {
-        if(email==="keshabdas2003@kockw.com"){
+      dispatch(loginStart());
+
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (data.success && data.user) {
+        dispatch(loginSuccess({ user: data.user, token: data.token || "" }));
+        dispatch(addUser(data.user));
+        if (data.user.role === "super_admin") {
           router.push("/adminDashboard");
-        }else{
-        router.push("/dashboard");
+        } else {
+          router.push("/dashboard");
         }
       } else {
+        dispatch(loginFailure());
         setError("Invalid email or password");
       }
     } catch (error) {
+      dispatch(loginFailure());
       setError("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
@@ -102,9 +120,7 @@ export default function LoginPage() {
             <LogIn className="h-8 w-8 text-primary mx-2" />
             <CardTitle className="text-2xl">{t("auth.welcomeBack")}</CardTitle>
           </div>
-          <CardDescription>
-            {t("auth.signInDescription")}
-          </CardDescription>
+          <CardDescription>{t("auth.signInDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -144,7 +160,11 @@ export default function LoginPage() {
               </Alert>
             )}
 
-            <Button type="submit" className="w-full cursor-pointer" disabled={isLoading}>
+            <Button
+              type="submit"
+              className="w-full cursor-pointer"
+              disabled={isLoading}
+            >
               {isLoading ? t("auth.signingIn") : t("auth.signIn")}
             </Button>
           </form>

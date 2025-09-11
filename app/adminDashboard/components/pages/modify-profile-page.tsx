@@ -97,7 +97,7 @@ export function ModifyProfilePage() {
             <CardContent className="space-y-4">
               <div className="flex flex-col items-center space-y-4">
                 <Avatar className="h-32 w-32">
-                  <AvatarImage src={profile.personalInfo.avatar || "/placeholder.svg"} alt="Profile" />
+                  <AvatarImage src={profile.personalInfo.avatar || "/admin-avatar.png"} alt="Profile" />
                   <AvatarFallback>
                     {profile.personalInfo.firstName[0]}
                     {profile.personalInfo.lastName[0]}

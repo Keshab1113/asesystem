@@ -7,6 +7,7 @@ import { Analytics } from "@vercel/analytics/react"
 import { ThemeProvider } from "@/lib/theme-provider"
 import { AuthProvider } from "@/lib/auth-context";
 import { LanguageProvider } from "@/lib/language-context";
+import { Providers } from "./providers"
 // import { Toaster } from "@/components/ui/sonner"
 import { Suspense } from "react";
 import "./globals.css";
@@ -27,6 +28,7 @@ export default function RootLayout({
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <LanguageProvider>
+            <Providers>
             <AuthProvider>
               <ToastProvider>
               <Suspense fallback={null}>
@@ -34,6 +36,7 @@ export default function RootLayout({
               </Suspense>
               </ToastProvider>
             </AuthProvider>
+            </Providers>
           </LanguageProvider>
         </ThemeProvider>
         <Analytics />

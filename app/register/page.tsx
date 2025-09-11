@@ -51,7 +51,6 @@ export default function RegisterPage() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
-  const { register } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
   const { theme, setTheme } = useTheme();
@@ -81,9 +80,10 @@ export default function RegisterPage() {
 
     if (!formData.email.trim()) {
       newErrors.email = t("auth.emailAddress") + " is required";
-    } else if (!formData.email.endsWith("@kockw.com")) {
-      newErrors.email = t("auth.emailDomainError");
     }
+    // else if (!formData.email.endsWith("@kockw.com")) {
+    //   newErrors.email = t("auth.emailDomainError");
+    // }
 
     if (!formData.password) {
       newErrors.password = t("auth.password") + " is required";
@@ -102,17 +102,17 @@ export default function RegisterPage() {
     setIsLoading(true);
 
     try {
-      const success = await register({
-        fullName: formData.fullName,
-        position: formData.position,
-        employeeId: formData.employeeId,
-        email: formData.email,
-        language: language,
-        controllingTeam: formData.controllingTeam,
-        group: formData.group,
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
 
-      if (success) {
+      const data = await res.json();
+      console.log("data: ",data);
+      
+
+      if (data.success) {
         toast({
           title: "Registration Successful",
           description: "Please check your email for OTP verification code.",
@@ -121,7 +121,7 @@ export default function RegisterPage() {
       } else {
         toast({
           title: "Registration Failed",
-          description: "Please try again.",
+          description: data.message || "Please try again.",
           variant: "destructive",
         });
       }

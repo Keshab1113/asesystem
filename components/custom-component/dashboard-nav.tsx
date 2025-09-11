@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/lib/auth-context";
 import { useLanguage } from "@/lib/language-context";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -38,16 +37,22 @@ import {
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import NavItems from "./navItems";
+import { AppDispatch, RootState } from "@/lib/store";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/lib/slices/authSlice";
 
 export function DashboardNav() {
   const router = useRouter();
-  const { user, logout } = useAuth();
+  const {user } = useSelector(
+    (state: RootState) => state.auth
+  );
+  const dispatch = useDispatch<AppDispatch>();
   const { language, setLanguage, t } = useLanguage();
   const { theme, setTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
-    logout();
+    dispatch(logout())
     router.push("/login");
   };
 
@@ -86,11 +91,11 @@ export function DashboardNav() {
                   <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 rounded-xl border border-blue-100 dark:border-blue-800">
                     <Avatar className="h-12 w-12 ring-2 ring-blue-200 dark:ring-blue-700">
                       <AvatarImage
-                        src={user?.profilePicture || "/placeholder.svg"}
-                        alt={user?.fullName}
+                        src={user?.profilePicture || "/admin-avatar.png"}
+                        alt={user?.name}
                       />
                       <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white font-semibold">
-                        {user?.fullName
+                        {user?.name
                           ?.split(" ")
                           .map((n) => n[0])
                           .join("")
@@ -99,7 +104,7 @@ export function DashboardNav() {
                     </Avatar>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">
-                        {user?.fullName}
+                        {user?.name}
                       </p>
                       <p className="text-xs text-slate-600 dark:text-slate-400 truncate">
                         {user?.email}
@@ -215,11 +220,11 @@ export function DashboardNav() {
               >
                 <Avatar className="h-7 w-7 ring-2 ring-slate-200 dark:ring-slate-700">
                   <AvatarImage
-                    src={user?.profilePicture || "/placeholder.svg"}
-                    alt={user?.fullName}
+                    src={user?.profilePicture || "/admin-avatar.png"}
+                    alt={user?.name}
                   />
                   <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-xs font-semibold">
-                    {user?.fullName
+                    {user?.name
                       ?.split(" ")
                       .map((n) => n[0])
                       .join("")
@@ -238,11 +243,11 @@ export function DashboardNav() {
                 <div className="flex items-center gap-3">
                   <Avatar className="h-12 w-12 ring-2 ring-blue-200 dark:ring-blue-700">
                     <AvatarImage
-                      src={user?.profilePicture || "/placeholder.svg"}
-                      alt={user?.fullName}
+                      src={user?.profilePicture || "/admin-avatar.png"}
+                      alt={user?.name}
                     />
                     <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white font-semibold">
-                      {user?.fullName
+                      {user?.name
                         ?.split(" ")
                         .map((n) => n[0])
                         .join("")
@@ -251,7 +256,7 @@ export function DashboardNav() {
                   </Avatar>
                   <div className="flex flex-col space-y-1">
                     <p className="text-sm font-semibold leading-none text-slate-900 dark:text-slate-100">
-                      {user?.fullName}
+                      {user?.name}
                     </p>
                     <p className="text-xs leading-none text-slate-600 dark:text-slate-400">
                       {user?.email}

@@ -7,22 +7,26 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { DashboardNav } from "@/components/custom-component/dashboard-nav";
 import NavItems from "@/components/custom-component/navItems";
+import { useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { user, isLoading } = useAuth();
+  const { user, isAuthenticated, loading, token } = useSelector(
+    (state: RootState) => state.auth
+  );
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && !user) {
+    if (!isAuthenticated && !user) {
       router.push("/login");
     }
-  }, [user, isLoading, router]);
+  }, [user, isAuthenticated, router]);
 
-  if (isLoading) {
+  if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>

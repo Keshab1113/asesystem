@@ -71,7 +71,7 @@ export function MyAccountPage() {
           <CardContent className="space-y-4">
             <div className="flex flex-col items-center space-y-4">
               <Avatar className="h-24 w-24">
-                <AvatarImage src={userData.avatar || "/placeholder.svg"} alt={userData.name} />
+                <AvatarImage src={userData.avatar || "/admin-avatar.png"} alt={userData.name} />
                 <AvatarFallback>
                   {userData.name
                     .split(" ")

@@ -1,11 +1,17 @@
-"use client"
+"use client";
 
-import { useAuth } from "@/lib/auth-context"
-import { useRouter } from "next/navigation"
-import { useEffect } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { BookOpen, Users, Award, BarChart3, Sun, Moon } from "lucide-react"
+import { useAuth } from "@/lib/auth-context";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { BookOpen, Users, Award, BarChart3, Sun, Moon } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -13,32 +19,32 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useTheme } from "next-themes"
-import { useLanguage } from "@/lib/language-context"
+import { useTheme } from "next-themes";
+import { useLanguage } from "@/lib/language-context";
+import { checkTokenExpiry } from "@/lib/checkTokenExpiry";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
 
 export default function HomePage() {
-  const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const { language, setLanguage, t } = useLanguage();
+  const dispatch = useDispatch();
+  const { isAuthenticated, loading, token } = useSelector(
+    (state: RootState) => state.auth
+  );
 
-  // useEffect(() => {
-  //   if (!isLoading) {
-  //     if (isAuthenticated) {
-  //       router.push("/dashboard")
-  //     } else {
-  //       router.push("/register")
-  //     }
-  //   }
-  // }, [isAuthenticated, isLoading, router])
+  useEffect(() => {
+    if (token) {
+      checkTokenExpiry(token, dispatch)
+      const interval = setInterval(() => {
+        checkTokenExpiry(token, dispatch)
+      }, 60000)
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
-      </div>
-    )
-  }
+      return () => clearInterval(interval)
+    }
+  }, [token, dispatch])
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted">
@@ -67,7 +73,9 @@ export default function HomePage() {
       </div>
       <div className="container mx-auto px-4 py-16  h-full min-h-screen flex flex-col justify-center items-center">
         <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold text-foreground mb-4">{t("mainPage.heading")}</h1>
+          <h1 className="text-4xl font-bold text-foreground mb-4">
+            {t("mainPage.heading")}
+          </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             {t("mainPage.subHeading")}
           </p>
@@ -92,7 +100,9 @@ export default function HomePage() {
               <CardTitle>{t("mainPage.TeamManagement")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription>{t("mainPage.TeamManagementDetails")}</CardDescription>
+              <CardDescription>
+                {t("mainPage.TeamManagementDetails")}
+              </CardDescription>
             </CardContent>
           </Card>
 
@@ -102,7 +112,9 @@ export default function HomePage() {
               <CardTitle>{t("mainPage.Certification")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription>{t("mainPage.CertificationDetails")}</CardDescription>
+              <CardDescription>
+                {t("mainPage.CertificationDetails")}
+              </CardDescription>
             </CardContent>
           </Card>
 
@@ -112,20 +124,31 @@ export default function HomePage() {
               <CardTitle>{t("mainPage.Analytics")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription>{t("mainPage.AnalyticsDetails")}</CardDescription>
+              <CardDescription>
+                {t("mainPage.AnalyticsDetails")}
+              </CardDescription>
             </CardContent>
           </Card>
         </div>
 
         <div className="text-center gap-4 flex justify-center items-center">
-          <Button size="lg" onClick={() => router.push("/register")} className=" cursor-pointer">
+          <Button
+            size="lg"
+            onClick={() => router.push("/register")}
+            className=" cursor-pointer"
+          >
             {t("mainPage.getStarted")}
           </Button>
-          <Button variant="outline" size="lg" onClick={() => router.push("/login")} className=" cursor-pointer">
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={() => router.push("/login")}
+            className=" cursor-pointer"
+          >
             {t("auth.signIn")}
           </Button>
         </div>
       </div>
     </div>
-  )
+  );
 }
