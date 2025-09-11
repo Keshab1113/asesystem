@@ -32,6 +32,8 @@ import {
   Briefcase,
   Sun,
   Moon,
+  UsersRound,
+  MonitorCog,
 } from "lucide-react";
 import { useToast } from "@/hooks/ToastContext";
 import { useTheme } from "next-themes";
@@ -44,6 +46,8 @@ export default function RegisterPage() {
     employeeId: "",
     email: "",
     password: "",
+    group: "",
+    controllingTeam: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -67,6 +71,12 @@ export default function RegisterPage() {
 
     if (!formData.employeeId.trim()) {
       newErrors.employeeId = t("register.employeeId") + " is required";
+    }
+    if (!formData.controllingTeam.trim()) {
+      newErrors.controllingTeam = t("profile.controllingTeam") + " is required";
+    }
+    if (!formData.group.trim()) {
+      newErrors.group = t("profile.group") + " is required";
     }
 
     if (!formData.email.trim()) {
@@ -98,8 +108,8 @@ export default function RegisterPage() {
         employeeId: formData.employeeId,
         email: formData.email,
         language: language,
-        controllingTeam: "default-team",
-        group: "default-group",
+        controllingTeam: formData.controllingTeam,
+        group: formData.group,
       });
 
       if (success) {
@@ -183,54 +193,109 @@ export default function RegisterPage() {
                 </Alert>
               )}
             </div>
+            <div className=" grid md:grid-cols-2 grid-cols-1 gap-2">
+              <div className="space-y-2">
+                <Label htmlFor="position">
+                  <Briefcase className="h-4 w-4 inline mr-1" />
+                  {t("register.position")}
+                </Label>
+                <Input
+                  id="position"
+                  type="text"
+                  placeholder="Enter your position"
+                  value={formData.position}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      position: e.target.value,
+                    }))
+                  }
+                  className={errors.position ? "border-destructive" : ""}
+                />
+                {errors.position && (
+                  <Alert variant="destructive">
+                    <AlertDescription>{errors.position}</AlertDescription>
+                  </Alert>
+                )}
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="position">
-                <Briefcase className="h-4 w-4 inline mr-2" />
-                {t("register.position")}
-              </Label>
-              <Input
-                id="position"
-                type="text"
-                placeholder="Enter your position"
-                value={formData.position}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, position: e.target.value }))
-                }
-                className={errors.position ? "border-destructive" : ""}
-              />
-              {errors.position && (
-                <Alert variant="destructive">
-                  <AlertDescription>{errors.position}</AlertDescription>
-                </Alert>
-              )}
+              <div className="space-y-2">
+                <Label htmlFor="employeeId">
+                  <IdCard className="h-4 w-4 inline mr-1" />
+                  {t("register.employeeId")}
+                </Label>
+                <Input
+                  id="employeeId"
+                  type="text"
+                  placeholder="Enter your employee ID"
+                  value={formData.employeeId}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      employeeId: e.target.value,
+                    }))
+                  }
+                  className={errors.employeeId ? "border-destructive" : ""}
+                />
+                {errors.employeeId && (
+                  <Alert variant="destructive">
+                    <AlertDescription>{errors.employeeId}</AlertDescription>
+                  </Alert>
+                )}
+              </div>
             </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="employeeId">
-                <IdCard className="h-4 w-4 inline mr-2" />
-                {t("register.employeeId")}
-              </Label>
-              <Input
-                id="employeeId"
-                type="text"
-                placeholder="Enter your employee ID"
-                value={formData.employeeId}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    employeeId: e.target.value,
-                  }))
-                }
-                className={errors.employeeId ? "border-destructive" : ""}
-              />
-              {errors.employeeId && (
-                <Alert variant="destructive">
-                  <AlertDescription>{errors.employeeId}</AlertDescription>
-                </Alert>
-              )}
+            <div className=" grid md:grid-cols-2 grid-cols-1 gap-2">
+              <div className="space-y-2">
+                <Label htmlFor="group">
+                  <UsersRound className="h-4 w-4 inline mr-2" />
+                  {t("profile.group")}
+                </Label>
+                <Select
+                  value={formData.group}
+                  onValueChange={(value) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      group: value,
+                    }))
+                  }
+                >
+                  <SelectTrigger id="group" className=" w-full">
+                    <SelectValue placeholder="Select your group" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {/* Example items - replace with dynamic IDs */}
+                    <SelectItem value="group1">Group 1</SelectItem>
+                    <SelectItem value="group2">Group 2</SelectItem>
+                    <SelectItem value="group3">Group 3</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="controllingTeam">
+                  <MonitorCog className="h-4 w-4 inline mr-2" />
+                  {t("profile.controllingTeam")}
+                </Label>
+                <Select
+                  value={formData.controllingTeam}
+                  onValueChange={(value) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      controllingTeam: value,
+                    }))
+                  }
+                >
+                  <SelectTrigger id="controllingTeam" className=" w-full">
+                    <SelectValue placeholder="Select your Controlling Team" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {/* Example items - replace with dynamic IDs */}
+                    <SelectItem value="EMP001">EMP001</SelectItem>
+                    <SelectItem value="EMP002">EMP002</SelectItem>
+                    <SelectItem value="EMP003">EMP003</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="email">
                 <Mail className="h-4 w-4 inline mr-2" />

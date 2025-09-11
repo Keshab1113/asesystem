@@ -452,6 +452,33 @@ export default function ProfilePage() {
                 </div>
 
                 <div className="space-y-2">
+                  <Label htmlFor="group">{t("profile.group")}</Label>
+                  {isEditing ? (
+                    <Select
+                      value={formData.group}
+                      onValueChange={(value) =>
+                        handleInputChange("group", value)
+                      }
+                    >
+                      <SelectTrigger id="group" className=" w-full">
+                        <SelectValue placeholder="Select your group" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {/* Example items - replace with dynamic IDs */}
+                        <SelectItem value="group1">Group 1</SelectItem>
+                        <SelectItem value="group2">Group 2</SelectItem>
+                        <SelectItem value="group3">Group 3</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    <div className="flex items-center gap-2 p-3 bg-muted rounded-md">
+                      <UsersRound className="w-4 h-4 text-muted-foreground" />
+                      <span>{user?.group}</span>
+                    </div>
+                  )}
+                </div>
+
+                <div className="space-y-2">
                   <Label htmlFor="controllingTeam">{t("profile.controllingTeam")}</Label>
                   {isEditing ? (
                     <Select
@@ -478,32 +505,6 @@ export default function ProfilePage() {
                   )}
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="group">{t("profile.group")}</Label>
-                  {isEditing ? (
-                    <Select
-                      value={formData.group}
-                      onValueChange={(value) =>
-                        handleInputChange("group", value)
-                      }
-                    >
-                      <SelectTrigger id="group" className=" w-full">
-                        <SelectValue placeholder="Select your group" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {/* Example items - replace with dynamic IDs */}
-                        <SelectItem value="group1">Group 1</SelectItem>
-                        <SelectItem value="group2">Group 2</SelectItem>
-                        <SelectItem value="group3">Group 3</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  ) : (
-                    <div className="flex items-center gap-2 p-3 bg-muted rounded-md">
-                      <UsersRound className="w-4 h-4 text-muted-foreground" />
-                      <span>{user?.group}</span>
-                    </div>
-                  )}
-                </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="employeeId">{t("profile.employeeId")}</Label>
